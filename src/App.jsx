@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, Cloud, CloudRain, CloudSnow, CloudLightning, Wind, Droplet, Thermometer } from 'lucide-react';
+import { Sun, Cloud, CloudRain, CloudSnow, CloudLightning, Wind, Droplet, Thermometer,Heart } from 'lucide-react';
 
 const App = () => {
   const [currentWeather, setCurrentWeather] = useState('sunny');
@@ -261,6 +261,15 @@ const App = () => {
           className="bg-white bg-opacity-20 hover:bg-opacity-30 text-black px-4 py-2 rounded-full transition"
         >
           Toggle {isDay ? 'Night' : 'Day'} Mode
+        </button>
+      </div>
+
+
+      <div className="flex justify-center mt-6">
+        <button 
+          className=" text-black mt-20 text-2xl absolute flex justify-center items-center gap-2"
+        >
+          Created With <Heart className='text-red-500'/> by Hardelz
         </button>
       </div>
     </div>
