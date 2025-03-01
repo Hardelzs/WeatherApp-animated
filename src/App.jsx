@@ -8,9 +8,12 @@ const App = () => {
   const [windSpeed, setWindSpeed] = useState(8);
   const [isDay, setIsDay] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isAutoMode, setIsAutoMode] = useState(true);
   
-  // Cycle through weather types for demo purposes
+  // Modify the weather cycle effect to only run in auto mode
   useEffect(() => {
+    if (!isAutoMode) return;
+
     const weatherTypes = ['sunny', 'cloudy', 'rainy', 'snowy', 'stormy', 'windy'];
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * weatherTypes.length);
@@ -23,7 +26,7 @@ const App = () => {
     }, 5000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [isAutoMode]);
   
   // Toggle day/night every 10 seconds
   useEffect(() => {
@@ -33,6 +36,14 @@ const App = () => {
     
     return () => clearInterval(interval);
   }, []);
+  
+  // Add manual weather control function
+  const handleWeatherChange = (weatherType) => {
+    if (isAutoMode) return;
+    setCurrentWeather(weatherType);
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 500);
+  };
   
   const getWeatherIcon = () => {
     switch(currentWeather) {
@@ -252,18 +263,73 @@ const App = () => {
               ))}
             </div>
           </div>
+
+          {/* Add weather control buttons */}
+          <div className="mt-6 grid grid-cols-3 gap-2">
+            <button
+              onClick={() => handleWeatherChange('sunny')}
+              className={`p-2 rounded-lg ${!isAutoMode && currentWeather === 'sunny' ? 'bg-yellow-200' : 'bg-white'} bg-opacity-30 hover:bg-opacity-40 transition`}
+              disabled={isAutoMode}
+            >
+              <Sun size={24} className="mx-auto" />
+            </button>
+            <button
+              onClick={() => handleWeatherChange('cloudy')}
+              className={`p-2 rounded-lg ${!isAutoMode && currentWeather === 'cloudy' ? 'bg-gray-200' : 'bg-white'} bg-opacity-30 hover:bg-opacity-40 transition`}
+              disabled={isAutoMode}
+            >
+              <Cloud size={24} className="mx-auto" />
+            </button>
+            <button
+              onClick={() => handleWeatherChange('rainy')}
+              className={`p-2 rounded-lg ${!isAutoMode && currentWeather === 'rainy' ? 'bg-blue-200' : 'bg-white'} bg-opacity-30 hover:bg-opacity-40 transition`}
+              disabled={isAutoMode}
+            >
+              <CloudRain size={24} className="mx-auto" />
+            </button>
+            <button
+              onClick={() => handleWeatherChange('snowy')}
+              className={`p-2 rounded-lg ${!isAutoMode && currentWeather === 'snowy' ? 'bg-blue-100' : 'bg-white'} bg-opacity-30 hover:bg-opacity-40 transition`}
+              disabled={isAutoMode}
+            >
+              <CloudSnow size={24} className="mx-auto" />
+            </button>
+            <button
+              onClick={() => handleWeatherChange('stormy')}
+              className={`p-2 rounded-lg ${!isAutoMode && currentWeather === 'stormy' ? 'bg-gray-300' : 'bg-white'} bg-opacity-30 hover:bg-opacity-40 transition`}
+              disabled={isAutoMode}
+            >
+              <CloudLightning size={24} className="mx-auto" />
+            </button>
+            <button
+              onClick={() => handleWeatherChange('windy')}
+              className={`p-2 rounded-lg ${!isAutoMode && currentWeather === 'windy' ? 'bg-blue-100' : 'bg-white'} bg-opacity-30 hover:bg-opacity-40 transition`}
+              disabled={isAutoMode}
+            >
+              <Wind size={24} className="mx-auto" />
+            </button>
+          </div>
+
+          {/* Add mode toggle */}
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={() => setIsAutoMode(prev => !prev)}
+              className={`px-4 py-2 rounded-full ${isAutoMode ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} transition`}
+            >
+              {isAutoMode ? 'Auto Mode' : 'Manual Mode'}
+            </button>
+          </div>
         </div>
       </div>
       
       <div className="flex justify-center mt-6">
         <button 
           onClick={() => setIsDay(prev => !prev)}
-          className="bg-white bg-opacity-20 hover:bg-opacity-30 text-black px-4 py-2 rounded-full transition"
+          className="bg-white bg-opacity-20 hover:bg-opacity-30 text-black px-4 py-2 rounded-full transition cursor-pointer"
         >
           Toggle {isDay ? 'Night' : 'Day'} Mode
         </button>
       </div>
-
 
       <div className="flex justify-center mt-6">
         <button 
