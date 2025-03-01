@@ -333,7 +333,7 @@ const App = () => {
 
       <div className="flex justify-center mt-6">
         <button 
-          className=" text-black mt-20 text-2xl absolute flex justify-center items-center gap-2"
+          className=" text-black mt-10 absolute flex justify-center items-center gap-2"
         >
           Created With <Heart className='text-red-500'/> by Hardelz
         </button>
